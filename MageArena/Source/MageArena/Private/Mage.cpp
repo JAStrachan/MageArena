@@ -32,3 +32,15 @@ void AMage::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 
 }
 
+void AMage::AimAtMouse(FVector MouseDirection)
+{
+	auto OurMageName = GetName();
+	UE_LOG(LogTemp, Warning, TEXT("%s is the direction of my mouse coming from %s"), *MouseDirection.ToString(), *OurMageName);
+
+}
+
+void AMage::SetStaffReference(UStaticMeshComponent * StaffToSet)
+{
+	Staff = StaffToSet;
+}
+

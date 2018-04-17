@@ -8,14 +8,22 @@
 #include "MagePlayerController.generated.h"
 
 /**
- * 
+ * Written By James Strachan
+	Class that handles input for the mage character
  */
 UCLASS()
 class MAGEARENA_API AMagePlayerController : public APlayerController
 {
 	GENERATED_BODY()
 
-		AMage* GetControlledBody() const;
+public:
+
+	AMage* GetControlledMage() const;
 	
-	
+	void BeginPlay() override;
+
+	virtual void Tick(float DeltaTime) override;
+
+	//Collects the mouse direction and passes it to the Mage class
+	void AimTowardsMouse();
 };
