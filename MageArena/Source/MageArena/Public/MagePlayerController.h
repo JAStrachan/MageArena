@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Mage.h"
 #include "GameFramework/PlayerController.h"
 #include "MagePlayerController.generated.h"
 
@@ -13,8 +14,8 @@ UCLASS()
 class MAGEARENA_API AMagePlayerController : public APlayerController
 {
 	GENERATED_BODY()
-	
-	
+
+		AMage* GetControlledBody() const;
 	
 	
 };

@@ -2,6 +2,7 @@
 
 #include "MagePlayerController.h"
 
-
-
-
+AMage * AMagePlayerController::GetControlledBody() const
+{
+	return Cast<AMage>(GetCharacter());
+}
