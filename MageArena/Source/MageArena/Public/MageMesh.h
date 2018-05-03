@@ -9,12 +9,17 @@
 /**
  * 
  */
-UCLASS()
+UCLASS( meta = (BluePrintSpawnableComponent))
 class MAGEARENA_API UMageMesh : public USkeletalMeshComponent
 {
 	GENERATED_BODY()
 	
 	
-	
+public:
+	void Rotate(float DegreesPerSecond);
+
+private:
+	UPROPERTY(EditAnywhere, Category = Setup)
+	float MaxDegreesPerSecond = 20;
 	
 };

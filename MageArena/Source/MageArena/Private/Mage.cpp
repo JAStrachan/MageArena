@@ -1,5 +1,6 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
+#include "MageMesh.h"
 #include "Mage.h"
 
 
@@ -34,13 +35,33 @@ void AMage::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 
 void AMage::AimAtMouse(FVector MouseDirection)
 {
-	auto OurMageName = GetName();
-	UE_LOG(LogTemp, Warning, TEXT("%s is the direction of my mouse coming from %s"), *MouseDirection.ToString(), *OurMageName);
+	if (!Staff) { return; }
+
+	FVector AimDirection = MouseDirection.GetSafeNormal(); //gets the normalised vector of the mouse
+	MouseDirection = MouseDirection.GetSafeNormal();
+	RotateMage(MouseDirection);
 
 }
+
+void AMage::RotateMage(FVector MouseDirection)
+{
+	// Rotate via yaw
+	FRotator MageRotator = Mage->GetForwardVector().Rotation();
+	auto AimAsRotator = MouseDirection.Rotation();
+	auto DeltaRotator = AimAsRotator - MageRotator; // gets the difference
+	
+	
+	Mage->Rotate(5); //TODO remove magic number
+}
+
 
 void AMage::SetStaffReference(UStaticMeshComponent * StaffToSet)
 {
 	Staff = StaffToSet;
+}
+
+void AMage::SetMageReference(UMageMesh * MageToSet)
+{
+	Mage = MageToSet;
 }
 

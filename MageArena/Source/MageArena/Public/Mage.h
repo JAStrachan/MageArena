@@ -6,6 +6,9 @@
 #include "GameFramework/Character.h"
 #include "Mage.generated.h"
 
+//forward declaration
+class UMageMesh; 
+//Mage class, holds mage properties and basic movement methods
 UCLASS()
 class MAGEARENA_API AMage : public ACharacter
 {
@@ -18,8 +21,13 @@ public:
 	//Passes the data through to the static mesh to say where to turn
 	void AimAtMouse(FVector MouseDirection);
 
+	void RotateMage(FVector MouseDirection);
+
 	UFUNCTION(BlueprintCallable, Category = Setup)
 	void SetStaffReference(UStaticMeshComponent* StaffToSet);
+
+	UFUNCTION(BlueprintCallable, Category = Setup)
+	void SetMageReference(UMageMesh * MageToSet);
 
 protected:
 	
@@ -37,5 +45,10 @@ private:
 	FVector DirectionOfMouse; //Stores the direction if the mouse simplier access
 
 	UStaticMeshComponent * Staff = nullptr;
+
+	UPROPERTY(EditAnywhere, Category = Firing)
+	float LaunchSpeed = 100; //Vaguely sensible on how fast it goes
+
+	UMageMesh * Mage = nullptr;
 	
 };
