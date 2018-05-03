@@ -3,10 +3,15 @@
 #include "MageMesh.h"
 
 
-void UMageMesh::Rotate(float DegreesPerSecond)
+void UMageMesh::Rotate(float RelativeSpeed)
 {
-	UE_LOG(LogTemp, Warning, TEXT("Mage Rotate called at speed %f"), DegreesPerSecond);
-	// Work out current difference between current mage rotation and mousedirection
-	// Move the mage the right amount this frame
+
+	auto RotationChange = RelativeSpeed * MaxDegreesPerSecond * GetWorld()->DeltaTimeSeconds;
+	auto RawNewRotation = RelativeRotation.Yaw + RotationChange;
+
+	FRotator rotate(0, RawNewRotation, 0);
+	//UE_LOG(LogTemp, Warning, TEXT("Rotating to %s"), *rotate.ToString());
+	SetRelativeRotation(FRotator(0, RawNewRotation, 0)); //TODO smooth the rotation when going over the break for degrees
+
 }
 

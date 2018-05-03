@@ -29,6 +29,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Setup)
 	void SetMageReference(UMageMesh * MageToSet);
 
+	UFUNCTION(BlueprintCallable)
+	void Fire();
+
 protected:
 	
 

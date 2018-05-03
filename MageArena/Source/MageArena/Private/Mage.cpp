@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-#include "MageMesh.h"
 #include "Mage.h"
+#include "MageMesh.h"
 
 
 // Sets default values
@@ -51,17 +51,24 @@ void AMage::RotateMage(FVector MouseDirection)
 	auto DeltaRotator = AimAsRotator - MageRotator; // gets the difference
 	
 	
-	Mage->Rotate(5); //TODO remove magic number
+	Mage->Rotate(DeltaRotator.Yaw);
 }
 
 
 void AMage::SetStaffReference(UStaticMeshComponent * StaffToSet)
 {
+	if (!StaffToSet) { return; }
 	Staff = StaffToSet;
 }
 
 void AMage::SetMageReference(UMageMesh * MageToSet)
 {
+	if (!MageToSet) { return; }
 	Mage = MageToSet;
+}
+
+void AMage::Fire()
+{
+	UE_LOG(LogTemp, Warning, TEXT("Cast Spell"));
 }
 
