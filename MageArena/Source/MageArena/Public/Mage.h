@@ -7,7 +7,8 @@
 #include "Mage.generated.h"
 
 //forward declaration
-class UMageMesh; 
+class UMageMesh;
+class UMageStaffMesh;
 //Mage class, holds mage properties and basic movement methods
 UCLASS()
 class MAGEARENA_API AMage : public ACharacter
@@ -24,7 +25,7 @@ public:
 	void RotateMage(FVector MouseDirection);
 
 	UFUNCTION(BlueprintCallable, Category = Setup)
-	void SetStaffReference(UStaticMeshComponent* StaffToSet);
+	void SetStaffReference(UMageStaffMesh* StaffToSet);
 
 	UFUNCTION(BlueprintCallable, Category = Setup)
 	void SetMageReference(UMageMesh * MageToSet);
@@ -45,9 +46,9 @@ private:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
-	FVector DirectionOfMouse; //Stores the direction if the mouse simplier access
+	FVector DirectionOfMouse; //Stores the direction 0f the mouse for simplier access
 
-	UStaticMeshComponent * Staff = nullptr;
+	UMageStaffMesh * Staff = nullptr;
 
 	UPROPERTY(EditAnywhere, Category = Firing)
 	float LaunchSpeed = 100; //Vaguely sensible on how fast it goes

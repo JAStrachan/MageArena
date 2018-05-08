@@ -23,7 +23,6 @@ void AMage::BeginPlay()
 void AMage::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
 }
 
 // Called to bind functionality to input
@@ -33,29 +32,34 @@ void AMage::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 
 }
 
-void AMage::AimAtMouse(FVector MouseDirection)
+//Called from MagePlayerController which finds the mouse location in the world
+// This then gets the player's location and finds the normalised vector between them
+void AMage::AimAtMouse(FVector MouseLocation)
 {
 	if (!Staff) { return; }
-
-	FVector AimDirection = MouseDirection.GetSafeNormal(); //gets the normalised vector of the mouse
-	MouseDirection = MouseDirection.GetSafeNormal();
-	RotateMage(MouseDirection);
+	FVector MageLocation = GetWorld()->GetFirstPlayerController()->GetPawn()->GetActorLocation();
+	UE_LOG(LogTemp, Warning, TEXT("Actor Location %s"), *MageLocation.ToString());
+	FVector AimDirection = MouseLocation - MageLocation; // The right way round
+	AimDirection = AimDirection.GetSafeNormal(); // gets the normalised vector of the mouse
+	RotateMage(AimDirection); // gives the direction to aim at to Rotate mage
 
 }
 
-void AMage::RotateMage(FVector MouseDirection)
+void AMage::RotateMage(FVector AimDirection)
 {
 	// Rotate via yaw
 	FRotator MageRotator = Mage->GetForwardVector().Rotation();
-	auto AimAsRotator = MouseDirection.Rotation();
-	auto DeltaRotator = AimAsRotator - MageRotator; // gets the difference
+	FRotator rotate(0, 90, 0); 
+	MageRotator = MageRotator + rotate; // makes it so the head points to the mouse
+	FRotator AimAsRotator = AimDirection.Rotation(); //turns the unit vector into a Rotation, Roll set to 0
+	FRotator DeltaRotator = AimAsRotator - MageRotator; //gets the difference
 	
 	
 	Mage->Rotate(DeltaRotator.Yaw);
 }
 
 
-void AMage::SetStaffReference(UStaticMeshComponent * StaffToSet)
+void AMage::SetStaffReference(UMageStaffMesh * StaffToSet)
 {
 	if (!StaffToSet) { return; }
 	Staff = StaffToSet;

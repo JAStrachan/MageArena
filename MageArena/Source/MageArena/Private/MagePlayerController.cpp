@@ -28,9 +28,11 @@ void AMagePlayerController::AimTowardsMouse()
 	//get vector between player and mouse
 	//Push down to rotate component
 
-	FVector MouseLocation, MouseDirection; //OUT parameters
-	if (DeprojectMousePositionToWorld(MouseLocation, MouseDirection)) //if it can deproject the mouse onto the world then
-	{
-		GetControlledMage()->AimAtMouse(MouseDirection); //passes the rotation down
-	}
+	// Inspired by https://forums.unrealengine.com/development-discussion/c-gameplay-programming/1370491-getting-a-character-to-face-the-cursor-in-a-top-down-game
+	FHitResult hitResult; //OUT parameters
+	GetHitResultUnderCursor(ECC_Visibility, true, hitResult); //if it can deproject the mouse onto the world then
+	FVector HitLocation = hitResult.Location;
+	GetControlledMage()->AimAtMouse(HitLocation); //passes the location down
+	UE_LOG(LogTemp, Warning, TEXT("Location of mouse %s"), *HitLocation.ToString());
+	
 }
