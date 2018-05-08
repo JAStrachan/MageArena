@@ -55,7 +55,7 @@ void AMage::RotateMage(FVector MouseDirection)
 }
 
 
-void AMage::SetStaffReference(UMageStaff * StaffToSet)
+void AMage::SetStaffReference(UStaticMeshComponent * StaffToSet)
 {
 	if (!StaffToSet) { return; }
 	Staff = StaffToSet;

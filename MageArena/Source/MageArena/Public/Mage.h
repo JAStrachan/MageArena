@@ -8,8 +8,6 @@
 
 //forward declaration
 class UMageMesh; 
-class ASpell;
-class UMageStaff;
 //Mage class, holds mage properties and basic movement methods
 UCLASS()
 class MAGEARENA_API AMage : public ACharacter
@@ -26,7 +24,7 @@ public:
 	void RotateMage(FVector MouseDirection);
 
 	UFUNCTION(BlueprintCallable, Category = Setup)
-	void SetStaffReference(UMageStaff* StaffToSet);
+	void SetStaffReference(UStaticMeshComponent* StaffToSet);
 
 	UFUNCTION(BlueprintCallable, Category = Setup)
 	void SetMageReference(UMageMesh * MageToSet);
@@ -49,14 +47,10 @@ private:
 
 	FVector DirectionOfMouse; //Stores the direction if the mouse simplier access
 
+	UStaticMeshComponent * Staff = nullptr;
+
 	UPROPERTY(EditAnywhere, Category = Firing)
 	float LaunchSpeed = 100; //Vaguely sensible on how fast it goes
-
-	UPROPERTY(EditAnywhere, Category = Firing)
-	TSubclassOf<ASpell> SpellBlueprint;
-
-	// local staff reference for shooting spells
-	MageStaff* Staff = nullptr;
 
 	UMageMesh * Mage = nullptr;
 	
