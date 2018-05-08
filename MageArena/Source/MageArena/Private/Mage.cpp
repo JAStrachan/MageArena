@@ -1,6 +1,8 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "Mage.h"
+#include "MageStaffMesh.h"
+#include "Spell.h"
 #include "MageMesh.h"
 
 
@@ -38,7 +40,6 @@ void AMage::AimAtMouse(FVector MouseLocation)
 {
 	if (!Staff) { return; }
 	FVector MageLocation = GetWorld()->GetFirstPlayerController()->GetPawn()->GetActorLocation();
-	UE_LOG(LogTemp, Warning, TEXT("Actor Location %s"), *MageLocation.ToString());
 	FVector AimDirection = MouseLocation - MageLocation; // The right way round
 	AimDirection = AimDirection.GetSafeNormal(); // gets the normalised vector of the mouse
 	RotateMage(AimDirection); // gives the direction to aim at to Rotate mage
@@ -49,8 +50,8 @@ void AMage::RotateMage(FVector AimDirection)
 {
 	// Rotate via yaw
 	FRotator MageRotator = Mage->GetForwardVector().Rotation();
-	FRotator rotate(0, 90, 0); 
-	MageRotator = MageRotator + rotate; // makes it so the head points to the mouse
+	FRotator rotate(0, 90, 0); // TODO Adding 90 degrees means at 270 degrees it messes up as it goes over 0
+	//MageRotator = MageRotator + rotate; // makes it so the head points to the mouse
 	FRotator AimAsRotator = AimDirection.Rotation(); //turns the unit vector into a Rotation, Roll set to 0
 	FRotator DeltaRotator = AimAsRotator - MageRotator; //gets the difference
 	
@@ -73,6 +74,36 @@ void AMage::SetMageReference(UMageMesh * MageToSet)
 
 void AMage::Fire()
 {
-	UE_LOG(LogTemp, Warning, TEXT("Cast Spell"));
+	//GetTimeSeconds are used so that time is consistent across states, not just on each platform.
+	UE_LOG(LogTemp, Warning, TEXT("Firing"));
+	bool isReloaded = (GetWorld()->GetTimeSeconds() - LastFireTime) > ReloadTimeInSeconds; // true if the time passed in game is greater than the reload time. 
+	if (Staff && isReloaded)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("isReloaded is True"));
+		// Spawns a spell projectile
+		auto Spell = GetWorld()->SpawnActor<ASpell>(
+			SpellBlueprint,
+			Staff->GetSocketLocation(FName("Spell")),
+			Staff->GetSocketRotation(FName("Spell"))
+			);
+
+		Spell->LaunchSpell(LaunchSpeed);
+		float LastFireTime = GetWorld()->GetTimeSeconds();
+	}
+	else
+	{
+		return;
+	}
+}
+
+void AMage::MoveForward()
+{
+	if (!Mage) { return; }
+}
+
+void AMage::MoveRight()
+{
+	if (!Mage) { return; }
+
 }
 

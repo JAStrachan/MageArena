@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "GameFramework/ProjectileMovementComponent.h"
 #include "GameFramework/Actor.h"
 #include "Spell.generated.h"
 
@@ -23,6 +24,9 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	
+	void LaunchSpell(float Speed);
+
+private:
+	UProjectileMovementComponent * SpellMovement = nullptr;
 	
 };

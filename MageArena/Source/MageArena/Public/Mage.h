@@ -9,6 +9,7 @@
 //forward declaration
 class UMageMesh;
 class UMageStaffMesh;
+class ASpell;
 //Mage class, holds mage properties and basic movement methods
 UCLASS()
 class MAGEARENA_API AMage : public ACharacter
@@ -33,6 +34,12 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void Fire();
 
+	UFUNCTION(BlueprintCallable)
+	void MoveForward();
+
+	UFUNCTION(BlueprintCallable)
+	void MoveRight();
+
 protected:
 	
 
@@ -46,13 +53,21 @@ private:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
-	FVector DirectionOfMouse; //Stores the direction 0f the mouse for simplier access
-
-	UMageStaffMesh * Staff = nullptr;
-
-	UPROPERTY(EditAnywhere, Category = Firing)
+	UPROPERTY(EditDefaultsOnly, Category = Firing)
 	float LaunchSpeed = 100; //Vaguely sensible on how fast it goes
 
+	UPROPERTY(EditDefaultsOnly, Category = Firing)
+	float ReloadTimeInSeconds = 1.5;
+
+	UPROPERTY(EditDefaultsOnly, Category = Setup)
+	TSubclassOf<ASpell> SpellBlueprint;
+
+	FVector DirectionOfMouse; //Stores the direction 0f the mouse for simplier access
+
+	float LastFireTime = 0; // The last time the mage fired a spell in seconds
+
 	UMageMesh * Mage = nullptr;
+
+	UMageStaffMesh * Staff = nullptr;
 	
 };

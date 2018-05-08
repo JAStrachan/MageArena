@@ -33,6 +33,5 @@ void AMagePlayerController::AimTowardsMouse()
 	GetHitResultUnderCursor(ECC_Visibility, true, hitResult); //if it can deproject the mouse onto the world then
 	FVector HitLocation = hitResult.Location;
 	GetControlledMage()->AimAtMouse(HitLocation); //passes the location down
-	UE_LOG(LogTemp, Warning, TEXT("Location of mouse %s"), *HitLocation.ToString());
 	
 }
