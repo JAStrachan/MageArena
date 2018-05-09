@@ -35,13 +35,14 @@ public:
 	void Fire();
 
 	UFUNCTION(BlueprintCallable)
-	void MoveForward();
+	void MoveForward(float force);
 
 	UFUNCTION(BlueprintCallable)
-	void MoveRight();
+	void MoveRight(float force);
 
 protected:
-	
+	UFUNCTION(Server, Reliable, WithValidation) // Server denotes its a server function, Reliable denotes that all data will eventually get to the server. 
+	void ServerFire(); // With validation is always needed for server functions
 
 private:	
 	// Called when the game starts or when spawned
