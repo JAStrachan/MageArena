@@ -12,9 +12,9 @@ ASpell::ASpell()
 	SpellMovement = CreateDefaultSubobject<UProjectileMovementComponent>(FName("Spell Movement"));
 	SpellMovement->bAutoActivate = false; // it go flying off until we fire it.
 
-	SetReplicates(true);
+	SetReplicates(true); // restart editor if not working, sometimes unreal bugs
 	SetReplicateMovement(true); // these say to clients please spawn all the projectiles the server creates
-
+	
 }
 
 // Called when the game starts or when spawned

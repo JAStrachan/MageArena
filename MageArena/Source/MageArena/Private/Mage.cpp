@@ -81,31 +81,7 @@ void AMage::SetMageReference(UMageMesh * MageToSet)
 void AMage::Fire()
 {
 	ServerFire();
-	//GetTimeSeconds are used so that time is consistent across states, not just on each platform.
-	/* 
-	if (!SpellBlueprint) 
-	{ 
-		UE_LOG(LogTemp, Warning, TEXT("SpellBlueprint isn't set, Reset it in the Mage_BP")); //warning in case it removes the spell blueprint from the Mage_BP
-		return; 
-	}
-	bool isReloaded = (GetWorld()->GetTimeSeconds() - LastFireTime) > ReloadTimeInSeconds; // true if the time passed in game is greater than the reload time. 
-	if (Staff && isReloaded)
-	{
-		// Spawns a spell projectile
-		auto Spell = GetWorld()->SpawnActor<ASpell>(
-			SpellBlueprint,
-			Staff->GetSocketLocation(FName("Spell")),
-			Staff->GetSocketRotation(FName("Spell"))
-			);
-
-		Spell->LaunchSpell(LaunchSpeed);
-		float LastFireTime = GetWorld()->GetTimeSeconds();
-	}
-	else
-	{
-		return;
-	}
-	*/
+	// add any code that clients want to do when they fire
 }
 
 // Input setup is in Blueprint
