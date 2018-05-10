@@ -40,11 +40,11 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void MoveRight(float force);
 
-	UFUNCTION(Server, Reliable, WithValidation) //Need these rotation methods on the serverside so they can know and control client rotation
+/*	UFUNCTION(Server, Reliable, WithValidation) //Need these rotation methods on the serverside so they can know and control client rotation
 	void ServerAimToMouse(FVector MouseLocation);
 
 	UFUNCTION(Server, Reliable, WithValidation)
-	void ServerRotateMage(FVector AimDirection);
+	void ServerRotateMage(FVector AimDirection); */
 
 protected:
 	UFUNCTION(Server, Reliable, WithValidation) // Server denotes its a server function, Reliable denotes that all data will eventually get to the server. 

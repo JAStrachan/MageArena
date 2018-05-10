@@ -75,18 +75,18 @@ void AMage::MoveRight(float force)
 // This then gets the player's location and finds the normalised vector between them
 void AMage::AimAtMouse(FVector MouseLocation)
 {
-	ServerAimToMouse(MouseLocation);
-	/*if (!Staff) { return; }
+	//ServerAimToMouse(MouseLocation);
+	if (!Staff) { return; }
 	FVector MageLocation = GetWorld()->GetFirstPlayerController()->GetPawn()->GetActorLocation();
 	FVector AimDirection = MouseLocation - MageLocation; // The right way round
 	AimDirection = AimDirection.GetSafeNormal(); // gets the normalised vector of the mouse
-	RotateMage(AimDirection); // gives the direction to aim at to Rotate mage*/
+	RotateMage(AimDirection); // gives the direction to aim at to Rotate mage
 
 }
 
 void AMage::RotateMage(FVector AimDirection) //wont need this if we just use the server implementation
 {
-	/*// Rotate via yaw
+	// Rotate via yaw
 	FRotator MageRotator = Mage->GetForwardVector().Rotation();
 	//FRotator rotate(0, 90, 0); // TODO Adding 90 degrees means at 270 degrees it messes up as it goes over 0
 	//MageRotator = MageRotator + rotate; // makes it so the head points to the mouse
@@ -97,8 +97,9 @@ void AMage::RotateMage(FVector AimDirection) //wont need this if we just use the
 	//TODO This works. Start a refactor so we can have this code possibly in this class or component
 	auto RelativeSpeed = DeltaRotator.Yaw;
 	Mage->AddRelativeRotation(FRotator(0, RelativeSpeed, 0)); //SMOOOTHED THE HECK OUT OF IT
-	*/
+	
 }
+/*
 //Thought it might be a solution but doesn't seem to be
 void AMage::ServerAimToMouse_Implementation(FVector MouseLocation)
 {
@@ -139,7 +140,7 @@ bool AMage::ServerRotateMage_Validate(FVector AimDirection)
 return true;
 } // TODO fill with actual checking code
 
-
+*/
 
 
 void AMage::Fire()
