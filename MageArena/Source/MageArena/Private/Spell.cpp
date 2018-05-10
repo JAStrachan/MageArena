@@ -34,7 +34,7 @@ void ASpell::Tick(float DeltaTime)
 void ASpell::LaunchSpell(float Speed)
 {
 	auto Time = GetWorld()->GetTimeSeconds();
-	UE_LOG(LogTemp, Warning, TEXT("%f:  Staff Shoots with speed %f"), Time, Speed);
+	
 	SpellMovement->SetVelocityInLocalSpace(FVector::ForwardVector * Speed); // TODO x plane in wrong direction, add vector on it if need to move spell in right direction
 	SpellMovement->Activate(); // activate the movement - we turned this off in the constructor
 }

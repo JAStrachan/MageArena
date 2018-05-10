@@ -16,12 +16,11 @@ class MAGEARENA_API UMageMesh : public USkeletalMeshComponent
 	
 	
 public:
-	// TODO check this is right
-	// -1 is max left movement and +1 is max right movement
-	void Rotate(float RelativeSpeed);
 
 private:
 	UPROPERTY(EditDefaultsOnly, Category = Setup)
 	float MaxDegreesPerSecond = 20;
 	
-};
+	UMageMesh();
+
+ };

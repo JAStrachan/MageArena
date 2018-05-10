@@ -11,6 +11,8 @@ AMage::AMage()
 {
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
+	//SetReplicates(true);
+	//SetReplicateMovement(true);
 }
 
 // Called when the game starts or when spawned
@@ -24,7 +26,6 @@ void AMage::BeginPlay()
 void AMage::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	
 }
 
 // Called to bind functionality to input
@@ -74,17 +75,18 @@ void AMage::MoveRight(float force)
 // This then gets the player's location and finds the normalised vector between them
 void AMage::AimAtMouse(FVector MouseLocation)
 {
-	if (!Staff) { return; }
+	ServerAimToMouse(MouseLocation);
+	/*if (!Staff) { return; }
 	FVector MageLocation = GetWorld()->GetFirstPlayerController()->GetPawn()->GetActorLocation();
 	FVector AimDirection = MouseLocation - MageLocation; // The right way round
 	AimDirection = AimDirection.GetSafeNormal(); // gets the normalised vector of the mouse
-	RotateMage(AimDirection); // gives the direction to aim at to Rotate mage
+	RotateMage(AimDirection); // gives the direction to aim at to Rotate mage*/
 
 }
 
-void AMage::RotateMage(FVector AimDirection)
+void AMage::RotateMage(FVector AimDirection) //wont need this if we just use the server implementation
 {
-	// Rotate via yaw
+	/*// Rotate via yaw
 	FRotator MageRotator = Mage->GetForwardVector().Rotation();
 	//FRotator rotate(0, 90, 0); // TODO Adding 90 degrees means at 270 degrees it messes up as it goes over 0
 	//MageRotator = MageRotator + rotate; // makes it so the head points to the mouse
@@ -94,16 +96,21 @@ void AMage::RotateMage(FVector AimDirection)
 	
 	//TODO This works. Start a refactor so we can have this code possibly in this class or component
 	auto RelativeSpeed = DeltaRotator.Yaw;
-	//Dont need the commented below code but keeping in case something crops up for the next two commits
-	//int MaxDegreesPerSecond = 10;
-	//auto RotationChange = RelativeSpeed * MaxDegreesPerSecond * GetWorld()->DeltaTimeSeconds;
-	//auto RawNewRotation = Mage->RelativeRotation.Yaw + RotationChange;
 	Mage->AddRelativeRotation(FRotator(0, RelativeSpeed, 0)); //SMOOOTHED THE HECK OUT OF IT
-
+	*/
 }
-/* Thought it might be a solution but doesn't seem to be
+//Thought it might be a solution but doesn't seem to be
 void AMage::ServerAimToMouse_Implementation(FVector MouseLocation)
 {
+	if (!Staff) { return; }
+	FVector MageLocation = GetWorld()->GetFirstPlayerController()->GetPawn()->GetActorLocation();
+	if (Role < ROLE_Authority)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Client is trying to rotate using server method"), *MageLocation.ToString());
+	}
+	FVector AimDirection = MouseLocation - MageLocation; // The right way round
+	AimDirection = AimDirection.GetSafeNormal(); // gets the normalised vector of the mouse
+	ServerRotateMage(AimDirection); // gives the direction to aim at to Rotate mage
 }
 
 bool AMage::ServerAimToMouse_Validate(FVector MouseLocation)
@@ -113,13 +120,25 @@ return true;
 
 void AMage::ServerRotateMage_Implementation(FVector AimDirection)
 {
+	// Rotate via yaw
+	FRotator MageRotator = Mage->GetForwardVector().Rotation();
+	//FRotator rotate(0, 90, 0); // TODO Adding 90 degrees means at 270 degrees it messes up as it goes over 0
+	//MageRotator = MageRotator + rotate; // makes it so the head points to the mouse
+	FRotator AimAsRotator = AimDirection.Rotation(); //turns the unit vector into a Rotation, Roll set to 0
+	FRotator DeltaRotator = AimAsRotator - MageRotator; //gets the difference
+
+
+	// TODO This works. Start a refactor so we can have this code possibly in this class or component
+	auto RelativeSpeed = DeltaRotator.Yaw;
+	
+	Mage->AddRelativeRotation(FRotator(0, RelativeSpeed, 0)); //SMOOOTHED THE HECK OUT OF IT
 }
 
 bool AMage::ServerRotateMage_Validate(FVector AimDirection)
 {
 return true;
 } // TODO fill with actual checking code
-*/
+
 
 
 
