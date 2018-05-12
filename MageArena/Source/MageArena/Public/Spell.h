@@ -28,5 +28,12 @@ public:
 
 private:
 	UProjectileMovementComponent * SpellMovement = nullptr;
+
+	UPROPERTY(VisibleAnywhere, Category = "Components")
+	UStaticMeshComponent * CollisionMesh = nullptr;
+
+	UParticleSystemComponent * SpellBlast = nullptr;
+
+	void PlayEffects();
 	
 };
