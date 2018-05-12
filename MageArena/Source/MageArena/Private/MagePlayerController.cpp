@@ -31,5 +31,3 @@ void AMagePlayerController::AimTowardsMouse()
 	GetControlledMage()->AimAtMouse(HitLocation); //passes the location down
 	
 }
-
-
