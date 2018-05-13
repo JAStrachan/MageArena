@@ -4,6 +4,7 @@
 #include "MageStaffMesh.h"
 #include "Spell.h"
 #include "Net/UnrealNetwork.h"
+#include "GameFramework/CharacterMovementComponent.h"
 #include "MageMesh.h"
 
 
@@ -14,6 +15,7 @@ AMage::AMage()
 	PrimaryActorTick.bCanEverTick = true;
 	SetReplicates(true);
 	SetReplicateMovement(true);
+	bUseControllerRotationYaw = true;
 }
 
 // Called when the game starts or when spawned
@@ -42,12 +44,6 @@ void AMage::SetStaffReference(UMageStaffMesh * StaffToSet)
 	Staff = StaffToSet;
 }
 
-void AMage::SetMageReference(UMageMesh * MageToSet)
-{
-	if (!MageToSet) { return; }
-	Mage = MageToSet;
-}
-
 // Input setup is in Blueprint
 void AMage::MoveForward(float force)
 {
@@ -56,7 +52,7 @@ void AMage::MoveForward(float force)
 	{
 		// Add movement in that directions
 		//TODO Will be off by 90 degrees as the x-plane is in wrong direction
-		AddMovementInput(Mage->GetForwardVector(), force);
+		AddMovementInput(GetActorForwardVector(), force);
 	}
 }
 
@@ -67,57 +63,10 @@ void AMage::MoveRight(float force)
 	{
 		// Add movement in that direction
 		//TODO Will be off by 90 degrees as the x-plane is in wrong direction
-		AddMovementInput(Mage->GetRightVector(), force);
+		AddMovementInput(GetActorRightVector(), force);
 	}
 
 }
-
-// Called from MagePlayerController which finds the mouse location in the world
-// This then gets the player's location and finds the normalised vector between them
-void AMage::AimAtMouse(FVector MouseLocation)
-{
-	if (Role < ROLE_Authority)
-	{
-		//ServerAimToMouse(MouseLocation);
-	}
-	if (!Staff) { return; }
-	if (!Mage) { return; }
-	//GetWorld()->GetFirstPlayerController()->AimTowardsMouse();
-	//Code that takes the mouse location and gets a relative rotation to go to
-	FVector MageLocation = GetActorLocation();
-	FVector AimDirection = MouseLocation - MageLocation; //Gets the vector inbetween the two points
-														 // Rotate via yaw
-	FVector MageForwardVector = GetActorForwardVector();
-	FRotator MageRotator = MageForwardVector.Rotation();
-	FRotator rotate(0, 90, 0); // Adding 90 degrees means at 270 degrees it messes up as it goes over 0
-	MageRotator = MageRotator + rotate;
-	FRotator AimAsRotator = AimDirection.Rotation(); //turns the unit vector into a Rotation, Roll set to 0
-	FRotator DeltaRotator = AimAsRotator - MageRotator;
-
-	if (DeltaRotator.Yaw == GetActorRotation().Yaw)
-	{
-		//UE_LOG(LogTemp, Warning, TEXT("Rotation is same as previous yaw"));
-		return; //don't the calculation, so dont do the rotation
-	}
-	else
-	{
-		auto YawRotation = DeltaRotator.Yaw;
-		FRotator NewRotation = FRotator(0, YawRotation, 0);
-		//ApplyRotation(NewRotation); //this reports to the server what the client's rotation is
-		AddActorWorldRotation(FRotator(NewRotation));
-	}
-}
-
-//Thought it might be a solution but doesn't seem to be
-void AMage::ServerAimToMouse_Implementation(FVector MouseLocation)
-{
-	AimAtMouse(MouseLocation);
-}
-
-bool AMage::ServerAimToMouse_Validate(FVector MouseLocation)
-{
-	return true;
-} //TODO fill with actual checking code
 
 void AMage::Fire()
 {
@@ -139,11 +88,12 @@ void AMage::ServerFire_Implementation() // implementation of server fire. Call S
 	if (Staff && isReloaded)
 	{
 		// Spawns a spell projectile
+		// TODO Make it so they aim towards the mouse location, might be a little bit for the extra rotator
 		auto Spell = GetWorld()->SpawnActor<ASpell>(
 			SpellBlueprint,
 			Staff->GetSocketLocation(FName("Spell")),
-			Staff->GetSocketRotation(FName("Spell"))
-			);
+			Staff->GetSocketRotation(FName("Spell"))+FRotator(0,90,0)
+			); //the last FRotator is a fix as the spell's x plane seems to be 90 degrees off where I want it
 
 		Spell->LaunchSpell(LaunchSpeed);
 		float LastFireTime = GetWorld()->GetTimeSeconds();
@@ -157,40 +107,5 @@ void AMage::ServerFire_Implementation() // implementation of server fire. Call S
 bool AMage::ServerFire_Validate() //have to have this when you have WithValidation
 {
 	return true; //checks to see if the player is cheating or not
-}
-
-//Me trying out interesting server code stuff to get it running, this iteration doesnt work from https://answers.unrealengine.com/questions/286736/replicating-actor-rotation.html
-void AMage::OnRep_MageRotation() // When the MageRotation is being changed then update the rotation of the mage
-{
-	//refresh other mage's rotation
-	AddActorWorldRotation(FRotator(MageRotation));
-}
-
-void AMage::ApplyRotation(FRotator rot)
-{
-	MageRotation = rot; //stores the mages new rotation
-
-	if (!HasAuthority() && IsLocallyControlled()) //makes sure its the client
-	{
-		ServerReportMageRotation(rot); //Reports that mage's rotation has changed
-		OnRep_MageRotation();
-	}
-}
-
-void AMage::ServerReportMageRotation_Implementation(const FRotator & NewRotation)
-{
-	MageRotation = NewRotation;
-	OnRep_MageRotation();
-}
-
-bool AMage::ServerReportMageRotation_Validate(const FRotator & NewRotation)
-{
-	return true;
-}
-
-void AMage::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
-{
-	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
-	DOREPLIFETIME_CONDITION(AMage, MageRotation, COND_SkipOwner);
 }
 

@@ -20,14 +20,8 @@ public:
 	// Sets default values for this character's properties
 	AMage();
 
-	//Passes the data through to the static mesh to say where to turn
-	void AimAtMouse(FVector MouseLocation);
-
 	UFUNCTION(BlueprintCallable, Category = Setup)
 	void SetStaffReference(UMageStaffMesh* StaffToSet);
-
-	UFUNCTION(BlueprintCallable, Category = Setup)
-	void SetMageReference(UMageMesh * MageToSet);
 
 	UFUNCTION(BlueprintCallable)
 	void Fire();
@@ -38,21 +32,9 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void MoveRight(float force);
 
-	UPROPERTY(ReplicatedUsing = OnRep_MageRotation)
-	FRotator MageRotation; // Stores the rotation of the current mages
-
-	UFUNCTION()
-	void OnRep_MageRotation();
-
-	UFUNCTION(Server, Unreliable, WithValidation)
-	void ServerReportMageRotation(const FRotator& NewRotation);
-
 protected:
 	UFUNCTION(Server, Reliable, WithValidation) // Server denotes its a server function, Reliable denotes that all data will eventually get to the server. 
 	void ServerFire(); // With validation is always needed for server functions
-
-	UFUNCTION(Server, Reliable, WithValidation) //Need these rotation methods on the serverside so they can know and control client rotation
-	void ServerAimToMouse(FVector MouseLocation);
 
 private:	
 	// Called when the game starts or when spawned
@@ -75,11 +57,7 @@ private:
 
 	void ApplyRotation(FRotator rot); // just applys a new rotation to the mage
 
-	FVector DirectionOfMouse; //Stores the direction 0f the mouse for simplier access
-
 	float LastFireTime = 0; // The last time the mage fired a spell in seconds
-
-	UMageMesh * Mage = nullptr;
 
 	UMageStaffMesh * Staff = nullptr;
 	

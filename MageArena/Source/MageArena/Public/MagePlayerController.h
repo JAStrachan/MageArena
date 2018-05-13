@@ -24,6 +24,8 @@ public:
 
 	virtual void Tick(float DeltaTime) override;
 
+	UPROPERTY(EditDefaultsOnly, Category = Rotation)
+	float SpeedOfRotation = 500; //Good Default
 	//Collects the mouse direction and passes it to the Mage class
-	void AimTowardsMouse();
+	void AimTowardsMouse(float DeltaTime);
 };
