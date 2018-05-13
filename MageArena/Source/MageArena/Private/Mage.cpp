@@ -44,26 +44,26 @@ void AMage::SetStaffReference(UMageStaffMesh * StaffToSet)
 	Staff = StaffToSet;
 }
 
+
+
 // Input setup is in Blueprint
 void AMage::MoveForward(float force)
 {
-	// TODO Remove UE_LOG(LogTemp, Warning, TEXT("Moving forward with force : %f"), force);
+	
 	if (force != 0.0f)
 	{
 		// Add movement in that directions
-		//TODO Will be off by 90 degrees as the x-plane is in wrong direction
-		AddMovementInput(GetActorForwardVector(), force);
+		AddMovementInput(FVector(1, 0, 0), force); // The vector just depicts forward in world space, rather than relative to where the actor is facing
 	}
 }
 
 void AMage::MoveRight(float force)
 {
-	// TODO Remove UE_LOG(LogTemp, Warning, TEXT("Moving right with force : %f"), force);
+	
 	if (force != 0.0f)
 	{
-		// Add movement in that direction
-		//TODO Will be off by 90 degrees as the x-plane is in wrong direction
-		AddMovementInput(GetActorRightVector(), force);
+		//Add movement in that direction
+		AddMovementInput(FVector(0,1,0), force);
 	}
 
 }

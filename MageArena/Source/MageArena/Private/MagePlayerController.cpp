@@ -26,10 +26,10 @@ void AMagePlayerController::AimTowardsMouse(float DeltaTime)
 	if (!GetControlledMage()){return;}
 
 	// Inspired by https://forums.unrealengine.com/development-discussion/c-gameplay-programming/1370491-getting-a-character-to-face-the-cursor-in-a-top-down-game
-	// Pretty heavily modified after though...
-	FHitResult hitResult; //OUT parameters
-	GetHitResultUnderCursor(ECC_Visibility, true, hitResult); //if it can deproject the mouse onto the world then
-	FVector MouseLocation = hitResult.Location;
+	// TODO Pretty heavily modified after though...literally the first 3 lines are similar and then its fairly different
+	FHitResult HitResult; //OUT parameters
+	GetHitResultUnderCursor(ECC_Visibility, true, HitResult); //if it can deproject the mouse onto the world then
+	FVector MouseLocation = HitResult.Location;
 	
 	FVector MageLocation = GetControlledMage()->GetActorLocation();
 	FVector AimDirection = MouseLocation - MageLocation; //Gets the vector inbetween the two points

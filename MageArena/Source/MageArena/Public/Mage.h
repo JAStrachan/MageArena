@@ -23,6 +23,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Setup)
 	void SetStaffReference(UMageStaffMesh* StaffToSet);
 
+	//UFUNCTION(BlueprintCallable, Category = Setup)
+	//void SetSpringArmReference(SpringArm)
+
 	UFUNCTION(BlueprintCallable)
 	void Fire();
 
@@ -55,10 +58,11 @@ private:
 	UPROPERTY(EditDefaultsOnly, Category = Setup)
 	TSubclassOf<ASpell> SpellBlueprint;
 
-	void ApplyRotation(FRotator rot); // just applys a new rotation to the mage
-
 	float LastFireTime = 0; // The last time the mage fired a spell in seconds
 
 	UMageStaffMesh * Staff = nullptr;
+
+	FVector CameraRotation = FVector(0, 0, 0);
+	
 	
 };
