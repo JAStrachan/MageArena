@@ -23,8 +23,6 @@ public:
 	//Passes the data through to the static mesh to say where to turn
 	void AimAtMouse(FVector MouseLocation);
 
-	void RotateMage(FVector AimDirection);
-
 	UFUNCTION(BlueprintCallable, Category = Setup)
 	void SetStaffReference(UMageStaffMesh* StaffToSet);
 
@@ -40,17 +38,21 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void MoveRight(float force);
 
-	UFUNCTION(Server, Reliable, WithValidation) //Need these rotation methods on the serverside so they can know and control client rotation
-	void ServerAimToMouse(FVector MouseLocation);
+	UPROPERTY(ReplicatedUsing = OnRep_MageRotation)
+	FRotator MageRotation; // Stores the rotation of the current mages
 
-	UFUNCTION(Server, Reliable, WithValidation)
-	void ServerRotateMage(FVector AimDirection);
+	UFUNCTION()
+	void OnRep_MageRotation();
+
+	UFUNCTION(Server, Unreliable, WithValidation)
+	void ServerReportMageRotation(const FRotator& NewRotation);
 
 protected:
 	UFUNCTION(Server, Reliable, WithValidation) // Server denotes its a server function, Reliable denotes that all data will eventually get to the server. 
 	void ServerFire(); // With validation is always needed for server functions
 
-	
+	UFUNCTION(Server, Reliable, WithValidation) //Need these rotation methods on the serverside so they can know and control client rotation
+	void ServerAimToMouse(FVector MouseLocation);
 
 private:	
 	// Called when the game starts or when spawned
@@ -70,6 +72,8 @@ private:
 
 	UPROPERTY(EditDefaultsOnly, Category = Setup)
 	TSubclassOf<ASpell> SpellBlueprint;
+
+	void ApplyRotation(FRotator rot); // just applys a new rotation to the mage
 
 	FVector DirectionOfMouse; //Stores the direction 0f the mouse for simplier access
 
