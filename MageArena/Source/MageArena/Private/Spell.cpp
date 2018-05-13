@@ -1,5 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
+#include "Kismet/GameplayStatics.h"
+#include "Particles/ParticleSystem.h"
 #include "Spell.h"
 
 
@@ -9,6 +11,13 @@ ASpell::ASpell()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
+	CollisionMesh = CreateDefaultSubobject<UStaticMeshComponent>(FName("Collision Mesh"));
+	SetRootComponent(CollisionMesh);
+	CollisionMesh->SetNotifyRigidBodyCollision(true);
+	CollisionMesh->SetVisibility(true);
+
+	//SpellBlast = CreateDefaultSubobject<UParticleSystemComponent>(FName("Spell Blast"));
+	//SpellBlast->SetupAttachment(CollisionMesh);
 	SpellMovement = CreateDefaultSubobject<UProjectileMovementComponent>(FName("Spell Movement"));
 	SpellMovement->bAutoActivate = false; // it go flying off until we fire it.
 
