@@ -52,7 +52,7 @@ protected:
 	void ServerFire(); // With validation is always needed for server functions
 
 	UFUNCTION(Server, Reliable, WithValidation) //Need these rotation methods on the serverside so they can know and control client rotation
-	void ServerAimToMouse(FRotator MouseLocation);
+	void ServerAimToMouse(FVector MouseLocation);
 
 private:	
 	// Called when the game starts or when spawned

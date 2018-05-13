@@ -76,10 +76,9 @@ void AMage::MoveRight(float force)
 // This then gets the player's location and finds the normalised vector between them
 void AMage::AimAtMouse(FVector MouseLocation)
 {
-	ServerAimToMouse(MouseLocation);
 	if (Role < ROLE_Authority)
 	{
-		
+		//ServerAimToMouse(MouseLocation);
 	}
 	if (!Staff) { return; }
 	if (!Mage) { return; }
@@ -105,23 +104,17 @@ void AMage::AimAtMouse(FVector MouseLocation)
 		auto YawRotation = DeltaRotator.Yaw;
 		FRotator NewRotation = FRotator(0, YawRotation, 0);
 		//ApplyRotation(NewRotation); //this reports to the server what the client's rotation is
-		
-		///PUSH THIS THROUGH TO THE SErVER or USE THE BLUEPRINT STUFF YOU FOUND
-		ServerAimToMouse(NewRotation);
-		//AddActorWorldRotation(FRotator(NewRotation));
+		AddActorWorldRotation(FRotator(NewRotation));
 	}
 }
 
 //Thought it might be a solution but doesn't seem to be
-void AMage::ServerAimToMouse_Implementation(FRotator MouseLocation)
+void AMage::ServerAimToMouse_Implementation(FVector MouseLocation)
 {
-	UE_LOG(LogTemp, Warning, TEXT("Actor name : %s"), *GetActorLabel());
-	//AimAtMouse(MouseLocation);
-	AddActorWorldRotation(FRotator(MouseLocation));
-	
+	AimAtMouse(MouseLocation);
 }
 
-bool AMage::ServerAimToMouse_Validate(FRotator MouseLocation)
+bool AMage::ServerAimToMouse_Validate(FVector MouseLocation)
 {
 	return true;
 } //TODO fill with actual checking code
@@ -175,7 +168,7 @@ void AMage::OnRep_MageRotation() // When the MageRotation is being changed then 
 
 void AMage::ApplyRotation(FRotator rot)
 {
-	//MageRotation = rot; //stores the mages new rotation
+	MageRotation = rot; //stores the mages new rotation
 
 	if (!HasAuthority() && IsLocallyControlled()) //makes sure its the client
 	{
