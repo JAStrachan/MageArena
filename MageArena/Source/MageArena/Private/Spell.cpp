@@ -17,6 +17,7 @@ ASpell::ASpell()
 	SetRootComponent(CollisionMesh);
 	CollisionMesh->SetNotifyRigidBodyCollision(true);
 	CollisionMesh->SetVisibility(true);
+	CollisionMesh->OnComponentHit.AddDynamic(this, &ASpell::OnHit);
 
 	SpellBlast = CreateDefaultSubobject<UParticleSystemComponent>(FName("Spell Blast"));
 	SpellBlast->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
@@ -52,5 +53,7 @@ void ASpell::LaunchSpell(float Speed)
 
 void ASpell::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
 {
-	
+	UE_LOG(LogTemp, Warning, TEXT("Generated hit event"));
+	Destroy();
+
 }

@@ -81,7 +81,7 @@ void AMage::ServerFire_Implementation() // implementation of server fire. Call S
 
 	if (!SpellBlueprint)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("SpellBlueprint isn't set, Reset it in the Mage_BP")); //warning in case it removes the spell blueprint from the Mage_BP
+		UE_LOG(LogTemp, Warning, TEXT("SpellBlueprint isn't set, Reset it in the Mage_BP and reset it to the Spell_BP_Retry")); //warning in case it removes the spell blueprint from the Mage_BP
 		return;
 	}
 	bool isReloaded = (GetWorld()->GetTimeSeconds() - LastFireTime) > ReloadTimeInSeconds; // true if the time passed in game is greater than the reload time. 

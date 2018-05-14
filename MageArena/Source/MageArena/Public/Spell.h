@@ -27,10 +27,10 @@ public:
 	void LaunchSpell(float Speed);
 
 	UFUNCTION()
-		void OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
+	void OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
 
 private:
-	
+	UPROPERTY(VisibleAnywhere, Category = "Components")
 	UProjectileMovementComponent * SpellMovement = nullptr;
 	
 	UPROPERTY(VisibleAnywhere, Category = "Components")
