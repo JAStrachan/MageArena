@@ -87,14 +87,18 @@ void AMage::ServerFire_Implementation() // implementation of server fire. Call S
 	bool isReloaded = (GetWorld()->GetTimeSeconds() - LastFireTime) > ReloadTimeInSeconds; // true if the time passed in game is greater than the reload time. 
 	if (Staff && isReloaded)
 	{
+		FActorSpawnParameters parameters;
+		parameters.Instigator = Controller->GetPawn();
+		
 		// Spawns a spell projectile
 		// TODO Make it so they aim towards the mouse location, might be a little bit for the extra rotator
 		auto Spell = GetWorld()->SpawnActor<ASpell>(
 			SpellBlueprint,
 			Staff->GetSocketLocation(FName("Spell")),
-			Staff->GetSocketRotation(FName("Spell"))+FRotator(0,90,0)
+			Staff->GetSocketRotation(FName("Spell"))+FRotator(0,90,0),
+			parameters
 			); //the last FRotator is a fix as the spell's x plane seems to be 90 degrees off where I want it
-
+			// parameters is the list of parameters just used so I can get the instigator of the damagea
 		Spell->LaunchSpell(LaunchSpeed);
 		float LastFireTime = GetWorld()->GetTimeSeconds();
 	}

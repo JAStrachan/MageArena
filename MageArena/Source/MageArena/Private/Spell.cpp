@@ -24,6 +24,7 @@ ASpell::ASpell()
 	SpellMovement = CreateDefaultSubobject<UProjectileMovementComponent>(FName("Spell Movement"));
 	SpellMovement->bAutoActivate = false; // it go flying off until we fire it.
 
+
 	SetReplicates(true); // restart editor if not working, sometimes unreal bugs
 	SetReplicateMovement(true); // these say to clients please spawn all the projectiles the server creates
 	
@@ -53,7 +54,10 @@ void ASpell::LaunchSpell(float Speed)
 
 void ASpell::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
 {
+	auto ConInstigator = Instigator->GetController();
+	UGameplayStatics::ApplyDamage(OtherActor, DefaultDamage, ConInstigator, this, DamageType);
 	UE_LOG(LogTemp, Warning, TEXT("Generated hit event"));
 	Destroy();
+	
 
 }

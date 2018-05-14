@@ -7,6 +7,8 @@
 #include "Spell.generated.h"
 
 class UProjectileMovementComponent;
+class UDamageType;
+
 UCLASS()
 class MAGEARENA_API ASpell : public AActor
 {
@@ -20,6 +22,23 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Damage")
+	TSubclassOf<UDamageType> DamageType;
+
+	UPROPERTY(VisibleAnywhere, Category = "Components")
+	UProjectileMovementComponent * SpellMovement = nullptr;
+
+	UPROPERTY(VisibleAnywhere, Category = "Components")
+	UStaticMeshComponent * CollisionMesh = nullptr;
+
+	UPROPERTY(VisibleAnywhere, Category = "Components")
+	class UParticleSystemComponent * SpellBlast = nullptr; //TODO add a launch and impact blast
+
+	UPROPERTY(EditDefaultsOnly, Category = "Damage")
+	float DefaultDamage = 15;
+
+	void PlayEffects();
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
@@ -30,14 +49,5 @@ public:
 	void OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
 
 private:
-	UPROPERTY(VisibleAnywhere, Category = "Components")
-	UProjectileMovementComponent * SpellMovement = nullptr;
 	
-	UPROPERTY(VisibleAnywhere, Category = "Components")
-	UStaticMeshComponent * CollisionMesh = nullptr;
-
-	UPROPERTY(VisibleAnywhere, Category = "Components")
-	class UParticleSystemComponent * SpellBlast = nullptr; //TODO add a launch and impact blast
-
-	void PlayEffects();
 };
