@@ -10,6 +10,8 @@
 class UMageMesh;
 class UMageStaffMesh;
 class ASpell;
+class USHealthComponent;
+
 //Mage class, holds mage properties and basic movement methods
 UCLASS()
 class MAGEARENA_API AMage : public ACharacter
@@ -39,6 +41,14 @@ protected:
 	UFUNCTION(Server, Reliable, WithValidation) // Server denotes its a server function, Reliable denotes that all data will eventually get to the server. 
 	void ServerFire(); // With validation is always needed for server functions
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Components)
+	USHealthComponent* HealthComp;
+
+	UFUNCTION()
+	void OnHealthChanged(USHealthComponent* OwningHealthComp, float Health, float HealthDelta, const class UDamageType* DamageType, class AController* InstigatedBy, AActor* DamageCauser);
+
+	UPROPERTY(Replicated, BlueprintReadOnly, Category = "Death")
+	bool bDied;
 private:	
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -63,6 +73,5 @@ private:
 	UMageStaffMesh * Staff = nullptr;
 
 	FVector CameraRotation = FVector(0, 0, 0);
-	
-	
+
 };

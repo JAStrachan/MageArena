@@ -5,6 +5,8 @@
 #include "Spell.h"
 #include "Net/UnrealNetwork.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "Components/CapsuleComponent.h"
+#include "SHealthComponent.h"
 #include "MageMesh.h"
 
 
@@ -16,13 +18,20 @@ AMage::AMage()
 	SetReplicates(true);
 	SetReplicateMovement(true);
 	bUseControllerRotationYaw = true;
+	bDied = false;
+
+	HealthComp = CreateDefaultSubobject<USHealthComponent>(TEXT("HealthComp"));
 }
+
+
 
 // Called when the game starts or when spawned
 void AMage::BeginPlay()
 {
 	Super::BeginPlay();
 	
+
+	HealthComp->OnHealthChanged.AddDynamic(this, &AMage::OnHealthChanged);
 }
 
 // Called every frame
@@ -43,7 +52,6 @@ void AMage::SetStaffReference(UMageStaffMesh * StaffToSet)
 	if (!StaffToSet) { return; }
 	Staff = StaffToSet;
 }
-
 
 
 // Input setup is in Blueprint
@@ -113,3 +121,27 @@ bool AMage::ServerFire_Validate() //have to have this when you have WithValidati
 	return true; //checks to see if the player is cheating or not
 }
 
+void AMage::OnHealthChanged(USHealthComponent * OwningHealthComp, float Health, float HealthDelta, const UDamageType * DamageType, AController * InstigatedBy, AActor * DamageCauser)
+{
+	if (Health <= 0.0f && !bDied)
+	{
+		// Die!
+
+		GetMovementComponent()->StopMovementImmediately();
+
+		GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+
+		bDied = true;
+
+		DetachFromControllerPendingDestroy();
+
+		SetLifeSpan(0.5f); //TODO set up a death animation of it just disappearing
+	}
+}
+
+void AMage::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
+{
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+
+	DOREPLIFETIME(AMage, bDied);
+}
