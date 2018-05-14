@@ -6,7 +6,8 @@
 #include "Components/ActorComponent.h"
 #include "SHealthComponent.generated.h"
 
-
+// On Health Change event
+DECLARE_DYNAMIC_DELEGATE_SixParams(FOnHealthChangedSignature, USHealthComponent*, HealthComp, float, Health, float, HealthDelta, const class UDamageType*, DamageType, class AController*, InstigatedBy, AActor*, DamageCauser);
 
 UCLASS( ClassGroup=(Health), meta=(BlueprintSpawnableComponent) )
 class MAGEARENA_API USHealthComponent : public UActorComponent
@@ -36,4 +37,6 @@ protected:
 
 public:	
 	
+	UPROPERTY(BlueprintAssignable, Category= "Events")
+	FOnHealthChangedSignature OnHealthChanged;
 };
