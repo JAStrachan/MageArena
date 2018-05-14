@@ -3,10 +3,10 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/ProjectileMovementComponent.h"
 #include "GameFramework/Actor.h"
 #include "Spell.generated.h"
 
+class UProjectileMovementComponent;
 UCLASS()
 class MAGEARENA_API ASpell : public AActor
 {
@@ -26,14 +26,18 @@ public:
 
 	void LaunchSpell(float Speed);
 
+	UFUNCTION()
+		void OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
+
 private:
+	
 	UProjectileMovementComponent * SpellMovement = nullptr;
 	
 	UPROPERTY(VisibleAnywhere, Category = "Components")
 	UStaticMeshComponent * CollisionMesh = nullptr;
 
-	//UPROPERTY(VisibleAnywhere, Category = "Components")
-	//class UParticleSystemComponent * SpellBlast = nullptr;
+	UPROPERTY(VisibleAnywhere, Category = "Components")
+	class UParticleSystemComponent * SpellBlast = nullptr; //TODO add a launch and impact blast
 
 	void PlayEffects();
 };

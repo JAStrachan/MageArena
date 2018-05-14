@@ -1,7 +1,8 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-#include "Math/UnrealMath.h" //for RInterp
 #include "MagePlayerController.h"
+#include "Math/UnrealMath.h" //for RInterp
+
 
 AMage * AMagePlayerController::GetControlledMage() const
 {

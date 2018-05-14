@@ -1,8 +1,10 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-#include "Kismet/GameplayStatics.h"
-#include "Particles/ParticleSystem.h"
 #include "Spell.h"
+#include "Kismet/GameplayStatics.h"
+#include "GameFramework/ProjectileMovementComponent.h"
+#include "Particles/ParticleSystemComponent.h"
+
 
 
 // Sets default values
@@ -16,8 +18,8 @@ ASpell::ASpell()
 	CollisionMesh->SetNotifyRigidBodyCollision(true);
 	CollisionMesh->SetVisibility(true);
 
-	//SpellBlast = CreateDefaultSubobject<UParticleSystemComponent>(FName("Spell Blast"));
-	//SpellBlast->SetupAttachment(CollisionMesh);
+	SpellBlast = CreateDefaultSubobject<UParticleSystemComponent>(FName("Spell Blast"));
+	SpellBlast->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
 	SpellMovement = CreateDefaultSubobject<UProjectileMovementComponent>(FName("Spell Movement"));
 	SpellMovement->bAutoActivate = false; // it go flying off until we fire it.
 
@@ -48,3 +50,7 @@ void ASpell::LaunchSpell(float Speed)
 	SpellMovement->Activate(); // activate the movement - we turned this off in the constructor
 }
 
+void ASpell::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
+{
+	
+}
