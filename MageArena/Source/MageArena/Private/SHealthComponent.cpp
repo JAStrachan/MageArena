@@ -35,6 +35,5 @@ void USHealthComponent::HandleTakeAnyDamage(AActor * DamagedActor, float Damage,
 	Health = FMath::Clamp(Health - Damage, 0.0f, MaxHealth);
 	UE_LOG(LogTemp, Log, TEXT("Health Changed: %f"), Health);
 
-	OnHealthChanged.BroadCast(this, Health, Damage, DamageType, InstigatedBy, DamageCauser)
 }
 

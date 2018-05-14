@@ -5,7 +5,6 @@
 #include "Spell.h"
 #include "Net/UnrealNetwork.h"
 #include "GameFramework/CharacterMovementComponent.h"
-#include "Components/CapsuleComponent.h"
 #include "MageMesh.h"
 
 
@@ -17,8 +16,6 @@ AMage::AMage()
 	SetReplicates(true);
 	SetReplicateMovement(true);
 	bUseControllerRotationYaw = true;
-
-	//GetCapsuleComponent()->GetCollisionResponseToChannel
 }
 
 // Called when the game starts or when spawned
