@@ -49,6 +49,7 @@ protected:
 
 	UPROPERTY(Replicated, BlueprintReadOnly, Category = "Death")
 	bool bDied;
+
 private:	
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -66,12 +67,10 @@ private:
 	float ReloadTimeInSeconds = 1.5;
 
 	UPROPERTY(EditDefaultsOnly, Category = Setup)
-	TSubclassOf<ASpell> SpellBlueprint;
+	TSubclassOf<ASpell> SpellBlueprint; // the spell we are firing
 
 	float LastFireTime = 0; // The last time the mage fired a spell in seconds
 
 	UMageStaffMesh * Staff = nullptr;
-
-	FVector CameraRotation = FVector(0, 0, 0);
 
 };

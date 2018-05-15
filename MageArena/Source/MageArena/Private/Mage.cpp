@@ -99,7 +99,6 @@ void AMage::ServerFire_Implementation() // implementation of server fire. Call S
 		parameters.Instigator = Controller->GetPawn();
 		
 		// Spawns a spell projectile
-		// TODO Make it so they aim towards the mouse location, might be a little bit for the extra rotator
 		auto Spell = GetWorld()->SpawnActor<ASpell>(
 			SpellBlueprint,
 			Staff->GetSocketLocation(FName("Spell")),

@@ -3,14 +3,14 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/GameModeBase.h"
-#include "MageGameMode.generated.h"
+#include "GameFramework/GameState.h"
+#include "MageGameState.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class MAGEARENA_API AMageGameMode : public AGameModeBase
+class MAGEARENA_API AMageGameState : public AGameState
 {
 	GENERATED_BODY()
 	

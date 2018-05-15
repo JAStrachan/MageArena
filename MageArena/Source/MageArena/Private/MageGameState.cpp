@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-#include "MageGameMode.h"
-
+#include "MageGameState.h"
+#include "Net/UnrealNetwork.h"
 
 
 

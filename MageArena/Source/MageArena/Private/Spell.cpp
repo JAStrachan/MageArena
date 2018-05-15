@@ -56,7 +56,7 @@ void ASpell::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveC
 {
 	auto ConInstigator = Instigator->GetController();
 	UGameplayStatics::ApplyDamage(OtherActor, DefaultDamage, ConInstigator, this, DamageType);
-	UE_LOG(LogTemp, Warning, TEXT("Generated hit event"));
+	//UE_LOG(LogTemp, Warning, TEXT("Generated hit event"));
 	Destroy();
 	
 
