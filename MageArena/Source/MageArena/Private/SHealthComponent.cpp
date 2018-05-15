@@ -49,11 +49,11 @@ void USHealthComponent::HandleTakeAnyDamage(AActor * DamagedActor, float Damage,
 	}
 	if (bIsDead)
 	{
+		UE_LOG(LogTemp, Warning, TEXT("Actor has died"));
 		AMageGameModeFull * GM = Cast<AMageGameModeFull>(GetWorld()->GetAuthGameMode()); //get the game mode so you can broadcast a death of an actor
 		if (GM) //this happens on the server
 		{
-			UE_LOG(LogTemp, Warning, TEXT("Pawn that instigated the death: %s"), *InstigatedBy->GetName());
-			GM->OnActorDeath.Broadcast(GetOwner(), DamageCauser, InstigatedBy); // The Instigated by is the controller of the spell its set in spell.cpp
+			GM->OnActorDeath.Broadcast(GetOwner(), DamageCauser, InstigatedBy);
 		}
 	}
 	

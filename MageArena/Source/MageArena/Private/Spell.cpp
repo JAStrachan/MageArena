@@ -54,7 +54,7 @@ void ASpell::LaunchSpell(float Speed)
 
 void ASpell::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
 {
-	auto ConInstigator = Instigator->GetInstigatorController();
+	auto ConInstigator = Instigator->GetController();
 	UGameplayStatics::ApplyDamage(OtherActor, DefaultDamage, ConInstigator, this, DamageType);
 	//UE_LOG(LogTemp, Warning, TEXT("Generated hit event"));
 	Destroy();

@@ -29,12 +29,6 @@ public:
 
 	void GameOver(); // Game over when one player wins
 
-	UFUNCTION()
-	void BeginMatch();
-
-	UFUNCTION(BlueprintCallable, Category = "Scoring")
-	int32 GetWinScore(); //Getter for winning score
-
 	UPROPERTY(BlueprintAssignable, Category = "GameMode")
 	FOnActorDeath OnActorDeath;
 

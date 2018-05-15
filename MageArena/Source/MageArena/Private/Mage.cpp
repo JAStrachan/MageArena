@@ -80,7 +80,6 @@ void AMage::Fire()
 {
 	ServerFire();
 	// add any code that clients want to do when they fire
-	// This will be mostly particle effects
 }
 
 // Calling ServerFire() calls to the server and asks to run the serverfire_implementation method
@@ -97,7 +96,7 @@ void AMage::ServerFire_Implementation() // implementation of server fire. Call S
 	if (Staff && isReloaded)
 	{
 		FActorSpawnParameters parameters;
-		parameters.Instigator = Controller->GetPawn(); //Gets the pawn responsible for damage - this would be the mage. When we go to the health component the InstigatedBy we will update so its the Instigated Controller of this
+		parameters.Instigator = Controller->GetPawn();
 		
 		// Spawns a spell projectile
 		auto Spell = GetWorld()->SpawnActor<ASpell>(

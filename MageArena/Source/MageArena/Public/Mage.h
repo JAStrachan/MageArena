@@ -25,6 +25,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Setup)
 	void SetStaffReference(UMageStaffMesh* StaffToSet);
 
+	//UFUNCTION(BlueprintCallable, Category = Setup)
+	//void SetSpringArmReference(SpringArm)
+
 	UFUNCTION(BlueprintCallable)
 	void Fire();
 
