@@ -96,7 +96,8 @@ void AMage::ServerFire_Implementation() // implementation of server fire. Call S
 	if (Staff && isReloaded)
 	{
 		FActorSpawnParameters parameters;
-		parameters.Instigator = Controller->GetPawn();
+		parameters.Instigator = Controller->GetPawn(); //Gets the pawn responsible for the damage - 
+		//this would be in the mage. In spell.cpp we specify the mage's player controller when applying damage
 		
 		// Spawns a spell projectile
 		auto Spell = GetWorld()->SpawnActor<ASpell>(
