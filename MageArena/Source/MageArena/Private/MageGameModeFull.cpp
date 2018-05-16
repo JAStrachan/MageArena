@@ -10,13 +10,11 @@ AMageGameModeFull::AMageGameModeFull()
 {
 	GameStateClass = AMageGameState::StaticClass();
 	PlayerStateClass = AMagePlayerState::StaticClass(); // Explicitly telling us that those are what we are using
-	AMageGameModeFull * GM = Cast<AMageGameModeFull>(GetWorld()->GetAuthGameMode());
-	GM->OnActorDeath.AddDynamic(this, &AMageGameModeFull::UpdateScore);
+	OnActorDeath.AddDynamic(this, &AMageGameModeFull::UpdateScore);
 }
 
 void AMageGameModeFull::UpdateScore(AActor* DeadActor, AActor* KillerActor, AController* KillerActorController)
 {
-	UE_LOG(LogTemp, Warning, TEXT("Reached Respawn"));
 	AMagePlayerState* MageKillerPlayerState = Cast<AMagePlayerState>(KillerActorController->PlayerState);
 	MageKillerPlayerState->AddScore(1);
 	AMage* Mage = Cast<AMage>(DeadActor);
@@ -51,20 +49,15 @@ bool AMageGameModeFull::CheckIfPlayerHasWon()
 
 void AMageGameModeFull::Respawn()
 {
-	
 	for (FConstPlayerControllerIterator Iterator = GetWorld()->GetPlayerControllerIterator(); Iterator; Iterator++)
 	{
 		AMagePlayerController* MageController = Cast<AMagePlayerController>(Iterator->Get());
 		//if (MageController && MageController->GetPawn()==nullptr && GetMatchState() == "InProgress") //the "real" code
 		if(MageController && MageController->GetPawn() == nullptr) // TODO change this to real code
 		{
-			
+			UE_LOG(LogTemp, Warning, TEXT("Found someone to respawn"));
 			// If cast was good and the Controller is controlling a pawn and the match is in progress
 			RestartPlayer(MageController);
-		}
-		else
-		{
-			UE_LOG(LogTemp, Warning,TEXT("This mage does need a respawn :  %s"),* MageController->GetName());
 		}
 		
 	}
