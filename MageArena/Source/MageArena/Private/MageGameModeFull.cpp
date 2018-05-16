@@ -10,7 +10,7 @@ AMageGameModeFull::AMageGameModeFull()
 {
 	GameStateClass = AMageGameState::StaticClass();
 	PlayerStateClass = AMagePlayerState::StaticClass(); // Explicitly telling us that those are what we are using
-	OnActorDeath.AddDynamic(this, &AMageGameModeFull::UpdateScore);
+	
 }
 
 void AMageGameModeFull::UpdateScore(AActor* DeadActor, AActor* KillerActor, AController* KillerActorController)
@@ -23,8 +23,10 @@ void AMageGameModeFull::UpdateScore(AActor* DeadActor, AActor* KillerActor, ACon
 	Respawn();
 }
 
-void AMageGameModeFull::BeginMatch()
+void AMageGameModeFull::BeginPlay()
 {
+	Super::BeginPlay;
+	OnActorDeath.AddDynamic(this, &AMageGameModeFull::UpdateScore);
 }
 
 int32 AMageGameModeFull::GetWinScore()
