@@ -15,6 +15,7 @@ class MAGEARENA_API AMagePlayerState : public APlayerState
 	GENERATED_BODY()
 	
 public:
+	AMagePlayerState();
 
 	UFUNCTION(BlueprintCallable, Category = "Scoring")
 	void AddScore(float ScoreDelta); 

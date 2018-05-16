@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// This code especially has the Feel of Tom Looman from https://www.udemy.com/unrealengine-cpp/ where he does a health component like this
 
 #pragma once
 

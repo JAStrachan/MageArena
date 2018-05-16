@@ -27,6 +27,12 @@ public:
 	
 	AMageGameModeFull();
 
+	UFUNCTION()
+	void UpdateScore(AActor * DeadActor, AActor * KillerActor, AController * KillerActorController);
+
+	UFUNCTION()
+	void Respawn();
+
 	void GameOver(); // Game over when one player wins
 
 	UFUNCTION()

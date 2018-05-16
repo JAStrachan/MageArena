@@ -11,6 +11,7 @@ class UMageMesh;
 class UMageStaffMesh;
 class ASpell;
 class USHealthComponent;
+class UObjectPool;
 
 //Mage class, holds mage properties and basic movement methods
 UCLASS()
@@ -24,9 +25,6 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = Setup)
 	void SetStaffReference(UMageStaffMesh* StaffToSet);
-
-	//UFUNCTION(BlueprintCallable, Category = Setup)
-	//void SetSpringArmReference(SpringArm)
 
 	UFUNCTION(BlueprintCallable)
 	void Fire();
@@ -64,10 +62,12 @@ private:
 	float LaunchSpeed = 1500; //Vaguely sensible on how fast it goes
 
 	UPROPERTY(EditDefaultsOnly, Category = Firing)
-	float ReloadTimeInSeconds = 1.5;
+	float ReloadTimeInSeconds = 2.5;
 
 	UPROPERTY(EditDefaultsOnly, Category = Setup)
 	TSubclassOf<ASpell> SpellBlueprint; // the spell we are firing
+
+
 
 	float LastFireTime = 0; // The last time the mage fired a spell in seconds
 

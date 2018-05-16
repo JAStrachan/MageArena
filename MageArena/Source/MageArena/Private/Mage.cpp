@@ -6,6 +6,7 @@
 #include "Net/UnrealNetwork.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Components/CapsuleComponent.h"
+#include "ObjectPool.h"
 #include "SHealthComponent.h"
 #include "MageMesh.h"
 

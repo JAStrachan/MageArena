@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "TimerManager.h"
 #include "Spell.generated.h"
 
 class UProjectileMovementComponent;
@@ -38,6 +39,9 @@ protected:
 	float DefaultDamage = 15;
 
 	void PlayEffects();
+
+	UPROPERTY(EditDefaultsOnly, Category = "LifeSpan")
+	float LifeSpan = 5.0f; // Lifespan of the spell
 
 public:	
 	// Called every frame

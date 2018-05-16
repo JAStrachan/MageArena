@@ -5,6 +5,13 @@
 #include "MageGameModeFull.h"
 #include "MagePlayerController.h"
 
+
+AMagePlayerState::AMagePlayerState()
+{
+}
+
+
+
 void AMagePlayerState::BeginPlay()
 {
 
@@ -13,12 +20,7 @@ void AMagePlayerState::BeginPlay()
 void AMagePlayerState::AddScore(float ScoreDelta) 
 {
 	Score += ScoreDelta;
-	/*if (Score >= Cast<AMageGameModeFull>(GetWorld()->GetAuthGameMode())->GetWinScore()) // Gets the custom game mode and then checks whats the number of points needed to win
-	{
-		if (!Cast<AMagePlayerController>(GetOwner())) { return; }
-		AMagePlayerController * MageController = Cast<AMagePlayerController>(GetOwner());
-		//OnPlayerWin.Broadcast(MageController); // Broadcasting that this player has won - pass in the player controller that has won
-	}*/
+	UE_LOG(LogTemp, Warning, TEXT("Score of player : %f"), Score);
 }
 
 void AMagePlayerState::AddDeaths(float DeathDelta)

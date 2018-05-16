@@ -3,6 +3,9 @@
 #include "Spell.h"
 #include "Kismet/GameplayStatics.h"
 #include "GameFramework/ProjectileMovementComponent.h"
+#include "UObject/ConstructorHelpers.h"
+#include "TimerManager.h"
+#include "Gameframework/Actor.h"
 #include "Particles/ParticleSystemComponent.h"
 
 
@@ -45,10 +48,8 @@ void ASpell::Tick(float DeltaTime)
 }
 
 void ASpell::LaunchSpell(float Speed)
-{
-	auto Time = GetWorld()->GetTimeSeconds();
-	
-	SpellMovement->SetVelocityInLocalSpace(FVector::ForwardVector * Speed); // TODO x plane in wrong direction, add vector on it if need to move spell in right direction
+{	
+	SpellMovement->SetVelocityInLocalSpace(FVector::ForwardVector * Speed); 
 	SpellMovement->Activate(); // activate the movement - we turned this off in the constructor
 }
 
@@ -56,8 +57,7 @@ void ASpell::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveC
 {
 	auto ConInstigator = Instigator->GetInstigatorController();
 	UGameplayStatics::ApplyDamage(OtherActor, DefaultDamage, ConInstigator, this, DamageType);
-	//UE_LOG(LogTemp, Warning, TEXT("Generated hit event"));
 	Destroy();
-	
+
 
 }
