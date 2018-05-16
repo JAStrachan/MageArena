@@ -36,7 +36,7 @@ public:
 	void GameOver(); // Game over when one player wins
 
 	UFUNCTION()
-	virtual void BeginPlay() override; 
+	void BeginMatch();
 
 	UFUNCTION(BlueprintCallable, Category = "Scoring")
 	int32 GetWinScore(); //Getter for winning score
